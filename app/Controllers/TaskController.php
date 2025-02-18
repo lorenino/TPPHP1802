@@ -8,7 +8,6 @@ class TaskController {
     }
 
     public function list() {
-        session_start();
         if (!isset($_SESSION['user'])) {
             header("Location: ?page=login");
             exit;
