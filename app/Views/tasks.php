@@ -37,7 +37,9 @@
                  <br>
                  <?php echo htmlspecialchars($task['description']); ?>
                  <br>
-                 Statut : <?php echo htmlspecialchars($task['status']); ?>
+                 Statut : <?php echo htmlspecialchars($task['status']); ?><br>
+                 <a href="?page=edit_task&id=<?php echo $task['id']; ?>">Modifier</a> | 
+                 <a href="?page=delete_task&id=<?php echo $task['id']; ?>" onclick="return confirm('Supprimer cette tâche ?')">Supprimer</a>
               </li>
          <?php endforeach; ?>
          </ul>

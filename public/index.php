@@ -25,6 +25,12 @@ switch ($page) {
         }
         $taskController->list();
         break;
+    case 'edit_task':
+        $taskController->edit();
+        break;
+    case 'delete_task':
+        $taskController->delete();
+        break;
     default:
         echo "Page non trouvée";
         break;
