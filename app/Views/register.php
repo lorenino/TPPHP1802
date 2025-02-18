@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+
 </head>
 <body>
     <h1>Inscription</h1>

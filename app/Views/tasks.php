@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Mes tâches</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+
 </head>
 <body>
     <h1>Mes tâches</h1>
