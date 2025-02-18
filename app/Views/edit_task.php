@@ -22,6 +22,13 @@
             <option value="Terminé" <?php echo ($task['status'] == 'Terminé') ? 'selected' : ''; ?>>Terminé</option>
         </select><br><br>
         
+        <label>Priorité :</label>
+        <select name="priority">
+            <option value="Basse" <?php echo ($task['priority'] == 'Basse') ? 'selected' : ''; ?>>Basse</option>
+            <option value="Normale" <?php echo ($task['priority'] == 'Normale') ? 'selected' : ''; ?>>Normale</option>
+            <option value="Haute" <?php echo ($task['priority'] == 'Haute') ? 'selected' : ''; ?>>Haute</option>
+        </select><br><br>
+        
         <button type="submit">Mettre à jour</button>
     </form>
     <p><a href="?page=tasks">Retour à la liste des tâches</a></p>

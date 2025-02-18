@@ -1,10 +1,11 @@
 <?php
+require_once __DIR__ . '/../Models/Task.php';
 
 class TaskController {
-    private $pdo;
+    private $taskModel;
 
     public function __construct($pdo) {
-        $this->pdo = $pdo;
+        $this->taskModel = new Task($pdo);
     }
 
     public function list() {
@@ -13,9 +14,7 @@ class TaskController {
             exit;
         }
         $userId = $_SESSION['user']['id'];
-        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE user_id = ?");
-        $stmt->execute([$userId]);
-        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $tasks = $this->taskModel->getAllByUser($userId);
         include_once __DIR__ . '/../Views/tasks.php';
     }
 
@@ -28,9 +27,9 @@ class TaskController {
             $title = $_POST['title'];
             $description = $_POST['description'];
             $status = $_POST['status'];
+            $priority = $_POST['priority'];
             $userId = $_SESSION['user']['id'];
-            $stmt = $this->pdo->prepare("INSERT INTO tasks (title, description, status, user_id) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$title, $description, $status, $userId]);
+            $this->taskModel->create($title, $description, $status, $priority, $userId);
             header("Location: ?page=tasks");
             exit;
         }
@@ -46,9 +45,8 @@ class TaskController {
             exit;
         }
         $id = $_GET['id'];
-        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE id = ? AND user_id = ?");
-        $stmt->execute([$id, $_SESSION['user']['id']]);
-        $task = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userId = $_SESSION['user']['id'];
+        $task = $this->taskModel->getById($id, $userId);
         if (!$task) {
             echo "Tâche non trouvée ou accès non autorisé.";
             exit;
@@ -57,8 +55,8 @@ class TaskController {
             $title = $_POST['title'];
             $description = $_POST['description'];
             $status = $_POST['status'];
-            $stmt = $this->pdo->prepare("UPDATE tasks SET title = ?, description = ?, status = ? WHERE id = ? AND user_id = ?");
-            $stmt->execute([$title, $description, $status, $id, $_SESSION['user']['id']]);
+            $priority = $_POST['priority'];
+            $this->taskModel->update($id, $title, $description, $status, $priority, $userId);
             header("Location: ?page=tasks");
             exit;
         }
@@ -75,9 +73,10 @@ class TaskController {
             exit;
         }
         $id = $_GET['id'];
-        $stmt = $this->pdo->prepare("DELETE FROM tasks WHERE id = ? AND user_id = ?");
-        $stmt->execute([$id, $_SESSION['user']['id']]);
+        $userId = $_SESSION['user']['id'];
+        $this->taskModel->delete($id, $userId);
         header("Location: ?page=tasks");
         exit;
     }
 }
+?>
